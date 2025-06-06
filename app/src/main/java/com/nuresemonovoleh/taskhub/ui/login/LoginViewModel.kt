@@ -14,6 +14,10 @@ class LoginViewModel : ViewModel() {
     private val _loginResult = MutableLiveData<Result<User>>()
     val loginResult: LiveData<Result<User>> = _loginResult
 
+    // NEW: LiveData for Google Sign-In result
+    private val _googleSignInResult = MutableLiveData<Result<User>>()
+    val googleSignInResult: LiveData<Result<User>> = _googleSignInResult
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -25,4 +29,6 @@ class LoginViewModel : ViewModel() {
             _isLoading.value = false
         }
     }
+
+
 }

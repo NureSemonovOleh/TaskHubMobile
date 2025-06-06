@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.nuresemonovoleh.taskhub.R
 import com.nuresemonovoleh.taskhub.databinding.FragmentRegisterBinding
+import com.nuresemonovoleh.taskhub.R // Added import for R class
 
 class RegisterFragment : Fragment() {
 
@@ -29,90 +29,46 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupClickListeners()
-        observeViewModel()
-    }
-
-    private fun setupClickListeners() {
-        // Кнопка реєстрації
+        // Клік по кнопці "Зареєструватися"
         binding.buttonRegister.setOnClickListener {
-            val name = binding.editTextName.text.toString().trim()
-            val email = binding.editTextEmail.text.toString().trim()
-            val password = binding.editTextPassword.text.toString().trim()
-            val confirmPassword = binding.editTextConfirmPassword.text.toString().trim()
+            val name = binding.editTextName.text.toString()
+            val email = binding.editTextEmail.text.toString()
+            val password = binding.editTextPassword.text.toString()
+            val confirmPassword = binding.editTextConfirmPassword.text.toString()
 
-            if (validateRegisterInput(name, email, password, confirmPassword)) {
-                viewModel.register(name, email, password)
+            if (name.isBlank() || email.isBlank() || password.isBlank()) {
+                Toast.makeText(context, "Будь ласка, заповніть всі поля", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            if (password != confirmPassword) {
+                Toast.makeText(context, "Паролі не співпадають", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            viewModel.register(name, email, password)
         }
 
-        // Повернутися до логіну
-        binding.buttonGoToLogin.setOnClickListener {
-            findNavController().navigateUp()
-        }
-    }
-
-    private fun validateRegisterInput(
-        name: String,
-        email: String,
-        password: String,
-        confirmPassword: String
-    ): Boolean {
-        return when {
-            name.isEmpty() -> {
-                binding.editTextName.error = "Введіть ім'я"
-                false
-            }
-            email.isEmpty() -> {
-                binding.editTextEmail.error = "Введіть email"
-                false
-            }
-            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                binding.editTextEmail.error = "Введіть правильний email"
-                false
-            }
-            password.isEmpty() -> {
-                binding.editTextPassword.error = "Введіть пароль"
-                false
-            }
-            password.length < 4 -> {
-                binding.editTextPassword.error = "Пароль має бути мінімум 4 символи"
-                false
-            }
-            password != confirmPassword -> {
-                binding.editTextConfirmPassword.error = "Паролі не співпадають"
-                false
-            }
-            else -> true
-        }
-    }
-
-    private fun observeViewModel() {
+        // Обсервер для результату
         viewModel.registerResult.observe(viewLifecycleOwner) { result ->
-            binding.progressBar.visibility = View.GONE
-            binding.buttonRegister.isEnabled = true
-
-            if (result.isSuccess) {
-                val user = result.getOrNull()
-                Toast.makeText(
-                    requireContext(),
-                    "Реєстрація успішна! Ласкаво просимо, ${user?.name}!",
-                    Toast.LENGTH_SHORT
-                ).show()
-                // Перехід до головного екрана
-                findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    result.exceptionOrNull()?.message ?: "Помилка реєстрації",
-                    Toast.LENGTH_SHORT
-                ).show()
+            result.onSuccess { user ->
+                Toast.makeText(context, "Успішна реєстрація: ${user.name}", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+            }
+            result.onFailure { error ->
+                Toast.makeText(context, "Помилка: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         }
 
+        // Обсервер для прогрес-бару
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.buttonRegister.isEnabled = !isLoading
+        }
+
+        // Клік для повернення до логіну
+        binding.buttonGoToLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
     }
 

@@ -113,6 +113,16 @@
             app:layout_constraintTop_toBottomOf="@id/textOr"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+        <!-- Ваші існуючі елементи -->
+        <Button
+            android:id="@+id/button_google_sign_in"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Увійти через Google"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonLogin" />
+        <!-- Налаштуйте layout_constraintTop_toBottomOf відповідно до вашого дизайну -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

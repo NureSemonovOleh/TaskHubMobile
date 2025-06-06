@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.nuresemonovoleh.taskhub.R
 import com.nuresemonovoleh.taskhub.databinding.FragmentLoginBinding
+import com.nuresemonovoleh.taskhub.R // Import for R class
 
 class LoginFragment : Fragment() {
 
@@ -29,67 +29,45 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupClickListeners()
-        observeViewModel()
-    }
-
-    private fun setupClickListeners() {
-        // Кнопка входу
         binding.buttonLogin.setOnClickListener {
-            val email = binding.editTextEmail.text.toString().trim()
-            val password = binding.editTextPassword.text.toString().trim()
+            val email = binding.editTextEmail.text.toString()
+            val password = binding.editTextPassword.text.toString()
 
-            if (validateLoginInput(email, password)) {
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                binding.progressBar.visibility = View.VISIBLE
                 viewModel.login(email, password)
+            } else {
+                Toast.makeText(requireContext(), "Введіть email і пароль", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Перехід до реєстрації
         binding.buttonGoToRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
-    }
 
-    private fun validateLoginInput(email: String, password: String): Boolean {
-        return when {
-            email.isEmpty() -> {
-                binding.editTextEmail.error = "Введіть email"
-                false
-            }
-            password.isEmpty() -> {
-                binding.editTextPassword.error = "Введіть пароль"
-                false
-            }
-            else -> true
-        }
-    }
+        // Removed: Google Sign-In Button Listener
 
-    private fun observeViewModel() {
         viewModel.loginResult.observe(viewLifecycleOwner) { result ->
             binding.progressBar.visibility = View.GONE
-            binding.buttonLogin.isEnabled = true
-
-            if (result.isSuccess) {
-                val user = result.getOrNull()
-                Toast.makeText(
-                    requireContext(),
-                    "Ласкаво просимо, ${user?.name}!",
-                    Toast.LENGTH_SHORT
-                ).show()
-                // Перехід до головного екрана
+            result.onSuccess { user ->
+                Toast.makeText(requireContext(), "Успішний вхід: ${user.name}", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    result.exceptionOrNull()?.message ?: "Помилка входу",
-                    Toast.LENGTH_SHORT
-                ).show()
+            }.onFailure { error ->
+                if (error.message?.contains("Email not verified", ignoreCase = true) == true) {
+                    Toast.makeText(requireContext(), "Ваш email не підтверджено. Будь ласка, перевірте свою пошту на наявність посилання для підтвердження.", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(requireContext(), "Помилка: ${error.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         }
+
+        // Removed: Observe Google Sign-In result from ViewModel
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.buttonLogin.isEnabled = !isLoading
+            binding.buttonGoToRegister.isEnabled = !isLoading
+            // Removed: binding.buttonGoogleSignIn.isEnabled = !isLoading
         }
     }
 
