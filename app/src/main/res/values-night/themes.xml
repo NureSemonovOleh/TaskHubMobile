@@ -1,16 +1,63 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.TaskHub" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Основний стиль додатка для нічного режиму. -->
+    <style name="Theme.TaskHub" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Основний колір бренду. -->
+        <item name="colorPrimary">@color/purple_primary</item>
+        <item name="colorPrimaryVariant">@color/purple_primary_variant</item>
+        <item name="colorOnPrimary">@color/purple_on_primary</item>
+        <!-- Другий колір бренду. -->
+        <item name="colorSecondary">@color/purple_secondary</item>
+        <item name="colorSecondaryVariant">@color/purple_secondary_variant</item>
+        <item name="colorOnSecondary">@color/purple_on_secondary</item>
+        <!-- Колір статус-бару. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+        <!-- Кольори фону та поверхонь -->
+        <item name="android:colorBackground">@color/dark_background</item>
+        <item name="colorSurface">@color/dark_surface</item>
+        <item name="colorOnBackground">@color/dark_on_background</item>
+        <item name="colorOnSurface">@color/dark_on_surface</item>
+
+        <!-- Зовнішній вигляд тексту для всього додатка -->
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="fontFamily">@font/inter_regular</item>
+        <item name="android:textColor">@color/dark_on_background</item>
+        <item name="android:textColorHint">@color/dark_on_background</item>
+
+        <!-- Необхідні атрибути для Material Components, включаючи Toolbar -->
+        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.PrimarySurface</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.MaterialComponents.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.MaterialComponents.Subtitle1</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
+        <item name="android:windowBackground">@color/dark_background</item>
+        <item name="android:colorForeground">@color/dark_on_background</item>
+        <item name="colorError">#FF0000</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorOnSurfaceVariant">@color/dark_on_surface</item>
+        <item name="android:textColorPrimary">@color/dark_on_background</item>
+        <item name="android:textColorSecondary">@color/dark_on_background</item>
     </style>
+
+    <!-- Стиль для AppBar (Toolbar), коли він використовує темну оверлей. -->
+    <style name="Theme.TaskHub.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/dark_on_background</item>
+        <item name="actionMenuTextColor">@color/dark_on_background</item>
+        <item name="android:textColorSecondary">@color/dark_on_background</item>
+    </style>
+
+    <!-- Стиль для спливаючих меню (наприклад, меню з трьома крапками в Toolbar). -->
+    <style name="Theme.TaskHub.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">@color/dark_surface</item>
+        <item name="android:textColorPrimary">@color/dark_on_surface</item>
+        <item name="android:textColorSecondary">@color/dark_on_surface</item>
+    </style>
+
+    <!-- Стиль без ActionBar, якщо ви використовуєте її деінде. -->
+    <style name="Theme.TaskHub.NoActionBar" parent="Theme.TaskHub" />
+
 </resources>

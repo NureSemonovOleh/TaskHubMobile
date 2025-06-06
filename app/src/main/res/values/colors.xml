@@ -7,4 +7,26 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="dark_background">#1A1A2E</color> <!-- Дуже темно-сірий / майже чорний -->
+    <color name="dark_surface">#22223B</color>    <!-- Трохи світліший сірий для карток/елементів -->
+    <color name="dark_on_background">#E0E0E0</color> <!-- Світло-сірий для тексту на темному фоні -->
+    <color name="dark_on_surface">#F0F0F0</color>    <!-- Ще світліший для тексту на поверхнях -->
+
+    <!-- Фіолетові акценти -->
+    <color name="purple_primary">#8A2BE2</color>       <!-- Яскраво-фіолетовий (Blue Violet) -->
+    <color name="purple_primary_variant">#6A1B9A</color> <!-- Темніший фіолетовий -->
+    <color name="purple_secondary">#BF40BF</color>     <!-- Відтінок пурпурного для акценту -->
+    <color name="purple_secondary_variant">#9932CC</color> <!-- Ще один відтінок фіолетового -->
+
+    <!-- Кольори тексту на фіолетових акцентах -->
+    <color name="purple_on_primary">#FFFFFF</color>
+    <color name="purple_on_secondary">#FFFFFF</color>
+
+    <!-- Додаткові кольори для кнопок або інших елементів -->
+    <color name="gradient_start">#6A1B9A</color>  <!-- Темний фіолетовий для градієнта -->
+    <color name="gradient_end">#8A2BE2</color>    <!-- Яскравий фіолетовий для градієнта -->
+    <color name="button_pressed">#4C0066</color>  <!-- Темніший фіолетовий для натискання кнопки -->
+
+
 </resources>
